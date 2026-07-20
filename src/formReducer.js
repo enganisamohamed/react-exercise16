@@ -1,32 +1,29 @@
 export const initialState = {
-  counterA: 6,
-  counterB: 7,
+  step: 1,
+  firstName: "",
+  lastName: "",
+  email: "",
+  phone: "",
 };
 
-export function reducer(state, action) {
+export function formReducer(state, action) {
   switch (action.type) {
-    case "INCREMENT_A":
+    case "UPDATE_FIELD":
       return {
         ...state,
-        counterA: state.counterA + 1,
+        [action.field]: action.value,
       };
 
-    case "DECREMENT_A":
+    case "NEXT_STEP":
       return {
         ...state,
-        counterA: state.counterA - 1,
+        step: state.step + 1,
       };
 
-    case "INCREMENT_B":
+    case "PREV_STEP":
       return {
         ...state,
-        counterB: state.counterB + 1,
-      };
-
-    case "DECREMENT_B":
-      return {
-        ...state,
-        counterB: state.counterB - 1,
+        step: state.step - 1,
       };
 
     case "RESET":
