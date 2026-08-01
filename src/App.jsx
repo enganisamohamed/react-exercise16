@@ -1,56 +1,57 @@
-import { useState } from "react";
+import useForm from "./useForm";
 
 function App() {
-  const products = [
-    { id: 1, name: "Widget", price: 19.99 },
-    { id: 2, name: "Gadget", price: 29.99 },
-  ];
+  const { values, handleChange, resetForm } = useForm({
+    name: "",
+    email: "",
+    message: "",
+  });
 
-  const [cart, setCart] = useState([]);
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  const addToCart = (product) => {
-    setCart([...cart, product]);
-  };
+    console.log(values);
+    alert("Form Submitted Successfully!");
 
-  const removeFromCart = (id) => {
-    setCart(cart.filter((item, index) => index !== id));
+    resetForm();
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Products</h1>
+    <div>
+      <h1>Custom Hook</h1>
 
-      {products.map((product) => (
-        <div key={product.id} style={{ marginBottom: "20px" }}>
-          <h3>{product.name}</h3>
-          <p>Price: ${product.price}</p>
-
-          <button onClick={() => addToCart(product)}>
-            Add to Cart
-          </button>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Name:</label>
+          <input
+            type="text"
+            name="name"
+            value={values.name}
+            onChange={handleChange}
+          />
         </div>
-      ))}
 
-      <hr />
+        <div>
+          <label>Email:</label>
+          <input
+            type="email"
+            name="email"
+            value={values.email}
+            onChange={handleChange}
+          />
+        </div>
 
-      <h1>Cart Summary</h1>
+        <div>
+          <label>Message:</label>
+          <textarea
+            name="message"
+            value={values.message}
+            onChange={handleChange}
+          />
+        </div>
 
-      <h3>Total Items: {cart.length}</h3>
-
-      <ul>
-        {cart.map((item, index) => (
-          <li key={index}>
-            {item.name} - ${item.price}
-
-            <button
-              style={{ marginLeft: "10px" }}
-              onClick={() => removeFromCart(index)}
-            >
-              Remove
-            </button>
-          </li>
-        ))}
-      </ul>
+        <button type="submit">Submit</button>
+      </form>
     </div>
   );
 }
